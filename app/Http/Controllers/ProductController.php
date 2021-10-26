@@ -4,9 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 
 class ProductController extends Controller
 {
+    /**
+     * The product model instance.
+    */
+    protected $products;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param  Product  $products
+     * @return void
+    */
+
+    public function __construct(Product $products)
+    {
+        $this->products = $products;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +33,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Product::all();
+        $products = $this->products->all();
+        return $products;
     }
 
     /**
@@ -23,15 +43,11 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'slug' => 'required',
-            'price' => 'required',
-        ]);
-
-        return Product::create($request->all());
+        $product = $this->products->fill($request->all());
+        $product->save();
+        return response()->json(["message"=> "Registro creado exitosamente"], 200);
     }
 
     /**
@@ -40,23 +56,23 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        return Product::find($id);
+        return $product->find($product);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request, App\Models\Product $product
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        $product = Product::find($id);
-        $product->update($request->all());
-        return $product;
+        $product = $this->products->fill($request->all());
+        $product->update();
+        return response()->json(["message"=> "Registro actualizado exitosamente"], 201);
     }
 
     /**
@@ -65,9 +81,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        return Product::destroy($id);
+        $product->delete();
+        return response()->json(["message"=> "Registro eliminado exitosamente"], 201);
     }
 
     /**
