@@ -2,30 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\Region;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
+use App\Http\Requests\StoreRegionRequest;
+use App\Http\Requests\UpdateRegionRequest;
 
-class ProductController extends Controller
+class RegionController extends Controller
 {
     /**
-     * The product model instance.
+     * The region model instance.
     */
-    protected $products;
+    protected $regions;
 
     /**
      * Create a new controller instance.
      *
-     * @param  Product  $products
+     * @param  Region  $regions
      * @return void
     */
 
-    public function __construct(Product $products)
+    public function __construct(Region $regions)
     {
-        $this->products = $products;
+        $this->regions = $regions;
     }
-
+    
     /**
      * Display a listing of the resource.
      *
@@ -33,8 +33,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this->products->all();
-        return $products;
+        $regions = $this->regions->all();
+        return $regions;
     }
 
     /**
@@ -43,10 +43,10 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductRequest $request)
+    public function store(StoreRegionRequest $request)
     {
-        $product = $this->products->fill($request->all());
-        $product->save();
+        $region = $this->regions->fill($request->all());
+        $region->save();
         return response()->json(["message"=> "Registro creado exitosamente"], 200);
     }
 
@@ -58,20 +58,20 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return Product::find($id);
+        return Region::find($id);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request, App\Models\Product $product
+     * @param  \Illuminate\Http\Request  $request, $id
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateRegionRequest $request, $id)
     {
-        $product = $this->products->fill($request->all());
-        $product->update();
+        $region = $this->regions->find($id);
+        $region->update($request->all());
         return response()->json(["message"=> "Registro actualizado exitosamente"], 201);
     }
 
@@ -81,9 +81,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        $product->delete();
+        $region = $this->regions->find($id);
+        $region->delete();
         return response()->json(["message"=> "Registro eliminado exitosamente"], 201);
     }
 
@@ -95,6 +96,6 @@ class ProductController extends Controller
      */
     public function search($name)
     {
-        return Product::where('name', 'like', '%'.$name.'%')->get();
+        return Region::where('name', 'like', '%'.$name.'%')->get();
     }
 }

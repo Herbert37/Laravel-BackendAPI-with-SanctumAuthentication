@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RegionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,24 +16,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::resource('products', ProductController::class);
 
 //Public routes
-Route::post('/auth/register', [AuthController::class, 'register']);
-Route::post('/auth/login', [AuthController::class, 'login']);
-Route::prefix('products')->group(function () {
-    Route::get('/', [ProductController::class, 'index']);
-    Route::get('/{id}', [ProductController::class, 'show']);
-    Route::get('/search/{name}', [ProductController::class, 'search']);
+Route::prefix('auth')->group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
 });
+Route::resource('regions', RegionController::class)->only([
+    'index', 'show'
+]);
+Route::get('/regions/search/{name}', [RegionController::class, 'search']);
+
 //Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
-    Route::prefix('products')->group(function () {
-        Route::post('/', [ProductController::class, 'store']);
-        Route::put('/{id}', [ProductController::class, 'update']);
-        Route::delete('/{id}', [ProductController::class, 'destroy']);
-    });
+    Route::resource('regions', RegionController::class)->only(['store', 'update', 'destroy']);
 });
 
 
