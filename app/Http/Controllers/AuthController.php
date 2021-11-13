@@ -15,8 +15,8 @@ class AuthController extends Controller
             'last_name' => 'required|string',
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string|confirmed',
-            'phone' => 'required|string',
-            'region' => 'required|string'
+            'phone' => 'string',
+            'region_id' => 'string'
         ]);
 
         $user = User::create([
@@ -25,7 +25,7 @@ class AuthController extends Controller
             'email' => $fields['email'],
             'password' => bcrypt($fields['password']),
             'phone' => $fields['phone'],
-            'region' => $fields['region']
+            'region_id' => $fields['region_id']
         ]);
 
         $token = $user->createToken('myapptoken')->plainTextToken;
@@ -50,7 +50,7 @@ class AuthController extends Controller
         //Check password
         if(!$user || !Hash::check($fields['password'], $user->password)) {
             return response([
-                'message' => 'Bad creds'
+                'message' => 'Usuario o contraseña incorrectos'
             ], 401);
         }
 

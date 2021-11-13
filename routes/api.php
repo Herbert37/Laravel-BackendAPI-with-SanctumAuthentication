@@ -23,14 +23,16 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 });
 Route::resource('regions', RegionController::class)->only([
-    'index', 'show'
+    'index', 'show', 'store'
 ]);
 Route::get('/regions/search/{name}', [RegionController::class, 'search']);
 
 //Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
-    Route::resource('regions', RegionController::class)->only(['store', 'update', 'destroy']);
+    Route::resource('regions', RegionController::class)->only([
+        'update', 'destroy'
+    ]);
 });
 
 
