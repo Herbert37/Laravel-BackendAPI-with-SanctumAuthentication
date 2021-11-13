@@ -22,7 +22,6 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('phone');
             $table->unsignedBigInteger('region_id');
-            
             $table->foreign('region_id')
                 ->references('id')
                 ->on('regions')
