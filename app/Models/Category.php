@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Region extends Model
+class Category extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'slug'
+        'image'
     ];
 
     /**
@@ -19,8 +19,8 @@ class Region extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function subcategory()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Subcategory::class);
     }
 }

@@ -5,22 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Region extends Model
+class Specialty extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'slug'
+        'image',
+        'price_range'
     ];
 
     /**
-     * Get the users related to this region.
+     * Get the subcategory related to this specialty.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function subcategory()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(Subcategory::class);
     }
 }
