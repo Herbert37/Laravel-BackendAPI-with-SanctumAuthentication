@@ -12,7 +12,8 @@ class Specialty extends Model
     protected $fillable = [
         'name',
         'image',
-        'price_range'
+        'min_price_range',
+        'max_price_range'
     ];
 
     /**
