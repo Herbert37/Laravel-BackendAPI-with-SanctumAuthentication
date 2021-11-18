@@ -13,7 +13,8 @@ class Specialty extends Model
         'name',
         'image',
         'min_price_range',
-        'max_price_range'
+        'max_price_range',
+        'type'
     ];
 
     /**

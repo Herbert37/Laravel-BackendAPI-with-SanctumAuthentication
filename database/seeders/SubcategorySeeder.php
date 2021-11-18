@@ -19,13 +19,13 @@ class SubcategorySeeder extends Seeder
         $category = Category::first();
         DB::table('subcategories')->insert([
             'name' => 'Subcategory A1',
-            'image' => 'subcategory-a1',
+            'image' => 'https://www.nicepng.com/png/full/815-8154404_paisaje-de-pradera-animado.png',
             'category_id' => $category->id
         ]);
 
         DB::table('subcategories')->insert([
             'name' => 'Subcategory A2',
-            'image' => 'subcategory-a2',
+            'image' => 'https://www.nicepng.com/png/full/815-8154404_paisaje-de-pradera-animado.png',
             'category_id' => $category->id
         ]);
     }

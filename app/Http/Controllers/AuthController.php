@@ -64,6 +64,24 @@ class AuthController extends Controller
         return response($response, 201);
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request)
+    {
+        $id = $request->user()->id;
+        $user = User::find($id);
+        
+        $response = [
+            'user' => $user
+        ];
+
+        return response($response, 201);
+    }
+
     public function logout(Request $request) {
         auth()->user()->tokens()->delete();
 

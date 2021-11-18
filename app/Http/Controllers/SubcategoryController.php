@@ -30,12 +30,16 @@ class SubcategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $subcategories = $this->subcategories->all();
-        return $subcategories;
+        $subcategories = $this->subcategories;
+        if($request->category){
+            $subcategories = $subcategories->where('category_id', $request->category);
+        }
+        return $subcategories->get();
     }
 
     /**
@@ -57,9 +61,9 @@ class SubcategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($category_id)
     {
-        return Subcategory::find($id);
+        return Subcategory::load('categories.$category_id');
     }
 
     /**

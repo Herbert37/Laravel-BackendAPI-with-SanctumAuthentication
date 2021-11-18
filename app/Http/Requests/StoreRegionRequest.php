@@ -26,6 +26,7 @@ class StoreRegionRequest extends FormRequest
         return [
             'name' => 'required',
             'slug' => 'required',
+            'image' => 'required',
         ];
     }
 }

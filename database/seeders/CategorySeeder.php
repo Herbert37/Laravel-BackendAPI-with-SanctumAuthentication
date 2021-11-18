@@ -16,12 +16,12 @@ class CategorySeeder extends Seeder
     {
         DB::table('categories')->insert([
             'name' => 'Categoria A',
-            'images' => 'categoria-a.png',
+            'image' => 'https://www.nicepng.com/png/full/815-8154404_paisaje-de-pradera-animado.png',
         ]);
 
         DB::table('categories')->insert([
             'name' => 'Categoria B',
-            'images' => 'categoria-b.png',
+            'image' => 'https://www.nicepng.com/png/full/815-8154404_paisaje-de-pradera-animado.png',
         ]);
     }
 }

@@ -38,6 +38,7 @@ class CreateCategoriesTables extends Migration
             $table->string('image');
             $table->float('min_price_range', 8, 2);
             $table->float('max_price_range', 8, 2);
+            $table->string('type')->nullable();
             $table->unsignedBigInteger('subcategory_id');
             $table->foreign('subcategory_id')
                 ->references('id')

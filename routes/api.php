@@ -1,7 +1,9 @@
 <?php
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SubcategoryController;
+use App\Http\Controllers\SpecialtyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,10 +37,16 @@ Route::resource('specialties', SpecialtyController::class)->only([
     'index', 'show', 'store'
 ]);
 Route::get('/regions/search/{name}', [RegionController::class, 'search']);
+Route::get('/categories/search/{name}', [CategoryController::class, 'search']);
+Route::get('/subcategories/search/{name}', [SubcategoryController::class, 'search']);
+Route::get('/specialties/search/{name}', [SpecialtyController::class, 'search']);
 
 //Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::prefix('auth')->group(function () {
+        Route::get('/me', [AuthController::class, 'show']);
+        Route::post('/logout', [AuthController::class, 'logout']);
+    });
     Route::resource('regions', RegionController::class)->only([
         'update', 'destroy'
     ]);
