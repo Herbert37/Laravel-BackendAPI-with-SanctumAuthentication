@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\SpecialtyController;
@@ -24,7 +25,11 @@ Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 });
+Route::get('/users', [AuthController::class, 'index']);
 Route::resource('regions', RegionController::class)->only([
+    'index', 'show', 'store'
+]);
+Route::resource('locations', LocationController::class)->only([
     'index', 'show', 'store'
 ]);
 Route::resource('categories', CategoryController::class)->only([
@@ -36,10 +41,6 @@ Route::resource('subcategories', SubcategoryController::class)->only([
 Route::resource('specialties', SpecialtyController::class)->only([
     'index', 'show', 'store'
 ]);
-Route::get('/regions/search/{name}', [RegionController::class, 'search']);
-Route::get('/categories/search/{name}', [CategoryController::class, 'search']);
-Route::get('/subcategories/search/{name}', [SubcategoryController::class, 'search']);
-Route::get('/specialties/search/{name}', [SpecialtyController::class, 'search']);
 
 //Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -47,7 +48,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/me', [AuthController::class, 'show']);
         Route::post('/logout', [AuthController::class, 'logout']);
     });
+    Route::resource('users', AuthController::class)->only([
+        'update', 'destroy'
+    ]);
     Route::resource('regions', RegionController::class)->only([
+        'update', 'destroy'
+    ]);
+    Route::resource('locations', LocationController::class)->only([
         'update', 'destroy'
     ]);
     Route::resource('categories', CategoryController::class)->only([
