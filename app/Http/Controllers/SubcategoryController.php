@@ -36,10 +36,20 @@ class SubcategoryController extends Controller
     public function index(Request $request)
     {
         $subcategories = $this->subcategories;
-        if($request->category){
-            $subcategories = $subcategories->where('category_id', $request->category);
+        if($request->id){
+            $subcategories = $subcategories->where('id', $request->id);
         }
-        return $subcategories->get();
+        if($request->name){
+            $subcategories = $subcategories->where('name', 'like', '%'.$request->name.'%');
+        }
+        if($request->category_id){
+            $subcategories = $subcategories->where('category_id', $request->category_id);
+        }
+        return response()->json(
+            [
+                'subcategories' => $subcategories->get(),
+            ]
+        );
     }
 
     /**
@@ -61,9 +71,9 @@ class SubcategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($category_id)
+    public function show($id)
     {
-        return Subcategory::load('categories.$category_id');
+        return Subcategory::find($id);
     }
 
     /**

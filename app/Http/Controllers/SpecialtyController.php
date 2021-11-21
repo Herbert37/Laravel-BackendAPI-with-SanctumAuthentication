@@ -37,19 +37,40 @@ class SpecialtyController extends Controller
         $specialties = $this->specialties;
         $popular = $this->specialties;
         $recommended = $this->specialties;
-        if($request->subcategory){
-            $specialties = $specialties->where('subcategory_id', $request->subcategory);
-            $popular = $popular->where('subcategory_id', $request->subcategory);
-            $recommended = $recommended->where('subcategory_id', $request->subcategory);
+        if($request->id){
+            $specialties = $specialties->where('id', $request->id);
+            return response()->json(
+                [
+                    'specialties' => $specialties->get(),
+                ]
+            );
+        }
+        if($request->name){
+            $specialties = $specialties->where('name', 'like', '%'.$request->name.'%');
+            return response()->json(
+                [
+                    'specialties' => $specialties->get(),
+                ]
+            );
+        }
+        if($request->subcategory_id){
+            $specialties = $specialties->where('subcategory_id', $request->subcategory_id);
+            return response()->json(
+                [
+                    'specialties' => $specialties->get(),
+                ]
+            );
         }
         $specialties = $specialties->whereNull('type');
         $popular = $popular->where('type', 'popular');
         $recommended = $recommended->where('type', 'recommended');
         return response()->json(
             [
-                'specialties' => $specialties->get(),
-                'popular' => $popular->get(),
-                'recommended' => $recommended->get(),
+                'specialties' => [
+                    'popular' => $popular->get(),
+                    'recommended' => $recommended->get(),
+                    'normal' => $specialties->get(),
+                ]
             ]
         );
     }

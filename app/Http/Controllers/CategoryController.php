@@ -29,12 +29,23 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = $this->categories->all();
-        return $categories;
+        $categories = $this->categories;
+        if($request->id){
+            $categories = $categories->where('id', $request->id);
+        }
+        if($request->name){
+            $categories = $categories->where('name', 'like', '%'.$request->name.'%');
+        }
+        return response()->json(
+            [
+                'categories' => $categories->get(),
+            ]
+        );
     }
 
     /**
