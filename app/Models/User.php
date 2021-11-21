@@ -26,6 +26,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'is_phone_confirmed',
         'region_id',
     ];
 
@@ -37,6 +38,16 @@ class User extends Authenticatable
     public function region()
     {
         return $this->belongsTo(Region::class);
+    }
+
+    /**
+     * Get the locations related to this user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function location()
+    {
+        return $this->hasMany(Location::class);
     }
 
     /**

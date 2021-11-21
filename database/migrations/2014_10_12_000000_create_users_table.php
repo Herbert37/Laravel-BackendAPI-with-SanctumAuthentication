@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone');
+            $table->boolean('is_phone_confirmed')->default(false);
             $table->unsignedBigInteger('region_id');
             $table->foreign('region_id')
                 ->references('id')
