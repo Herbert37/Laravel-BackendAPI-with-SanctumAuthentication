@@ -51,6 +51,15 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the payment methods related to this user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function payment_methods() {
+        return $this->hasMany(PaymentMethod::class);
+    }
+
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array
