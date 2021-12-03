@@ -66,6 +66,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('specialties', SpecialtyController::class)->only([
         'index', 'show', 'store'
     ]);
+    // Payment methods
+    Route::prefix('payment/methods')->group(function () {
+        Route::get('/', 'PaymentMethodController@index');
+        Route::post('/', 'PaymentMethodController@store');
+        Route::put('/{method}/verify', 'PaymentMethodController@verifyCard');
+        Route::put('/{method}/default', 'PaymentMethodController@default');
+        Route::delete('/{method}', 'PaymentMethodController@removeCard');
+    });
 });
 
 
