@@ -24,7 +24,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
+
 });
+
 Route::get('/users', [AuthController::class, 'index']);
 Route::resource('regions', RegionController::class)->only([
     'index', 'show', 'store'
@@ -44,6 +46,10 @@ Route::resource('specialties', SpecialtyController::class)->only([
 
 //Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::prefix('/users')->group(function () {
+        Route::get('/{user}/locations', [LocationController::class, 'byUser']);
+        Route::post('/login', [AuthController::class, 'login']);
+    });
     Route::prefix('auth')->group(function () {
         Route::get('/me', [AuthController::class, 'show']);
         Route::post('/logout', [AuthController::class, 'logout']);

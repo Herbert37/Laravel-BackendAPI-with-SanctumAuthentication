@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Location;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreLocationRequest;
 use App\Http\Requests\UpdateLocationRequest;
+use App\Http\Resources\LocationResource;
 
 class LocationController extends Controller
 {
@@ -35,13 +37,13 @@ class LocationController extends Controller
     public function index(Request $request)
     {
         $locations = $this->locations;
-        if($request->id){
+        if ($request->id) {
             $locations = $locations->where('id', $request->id);
         }
-        if($request->reference){
-            $locations = $locations->where('reference', 'like', '%'.$request->reference.'%');
+        if ($request->reference) {
+            $locations = $locations->where('reference', 'like', '%' . $request->reference . '%');
         }
-        if($request->user_id){
+        if ($request->user_id) {
             $locations = $locations->where('user_id', $request->user_id);
         }
         return response()->json(
@@ -49,6 +51,19 @@ class LocationController extends Controller
                 'locations' => $locations->get(),
             ]
         );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function byUser(User $user)
+    {
+        $locations = $this->locations->where("user_id", $user->id)->get();
+
+        return LocationResource::collection($locations);
     }
 
     /**
@@ -61,7 +76,7 @@ class LocationController extends Controller
     {
         $location = $this->locations->fill($request->all());
         $location->save();
-        return response()->json(["message"=> "Ubicación registrada exitosamente"], 200);
+        return response()->json(["message" => "Ubicación registrada exitosamente"], 200);
     }
 
     /**

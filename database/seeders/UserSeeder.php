@@ -18,11 +18,12 @@ class UserSeeder extends Seeder
     public function run()
     {
         $region = Region::first();
+
         DB::table('users')->insert([
             'first_name' => 'Paque',
-            'last_name' => 'Test',
-            'email' => 'user_paque@gmail.com',
-            'phone' => '63711212',
+            'last_name' => 'Info',
+            'email' => 'info@paque.com',
+            'phone' => '',
             'password' => Hash::make('password'),
             'region_id' => $region->id
         ]);

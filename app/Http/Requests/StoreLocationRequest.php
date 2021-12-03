@@ -28,6 +28,7 @@ class StoreLocationRequest extends FormRequest
             'latitude' => 'required',
             'longitude' => 'required',
             'is_current' => 'required',
+            'user_id' => 'required',
         ];
     }
 }
